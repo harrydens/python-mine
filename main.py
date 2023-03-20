@@ -1,5 +1,5 @@
-import tkinter as tk
 from PIL import ImageTk, Image, ImageFilter
+import tkinter as tk
 
 size = int(input("크기:"))
 board = [[0 for i in range(size)] for i in range(size)]
@@ -64,6 +64,7 @@ while True:
 canvas.pack()
 window.mainloop()
 ##label = tk.Image()
+
 '''
 window.mainloop()
 
