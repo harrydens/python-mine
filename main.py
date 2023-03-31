@@ -6,7 +6,8 @@ import requests
 import random
 
 bool=1
-
+bool_1=1
+click=0
 
 size = int(input("크기:"))
 board = [[0 for j in range(size)] for i in range(size)]
@@ -32,15 +33,36 @@ canvas.pack()
 
 
 def check_around(y,x): ## a<0 a>=size block
-    global board
+    global board,size
     count = 0
-    if board[y][x] != 2 or board[y][x] != 3:
+    if board[y][x] == 2 or board[y][x] == 3:
+
         return 0
+    
     for i in range(9):
-        if((board[y-1+i//3][x-1+i%3] == 2 or board[y+i//3][x+i%3] == 3 ) and not(y-1<0 or y+1 >= size or x-1<0 or x+1 >= size)):
-            count += 1
+
+        if ((y-1+(i //3) >= 0 and y-1+(i//3) < size) and (x-1+(i%3) >= 0 and x-1+(i%3) < size)):
+
+            if(board[y-1+(i//3)][x-1+(i%3)] == 2 or board[y-1+(i//3)][x-1+(i%3)] == 3):
+
+                count += 1
+
     if count >0:
         board[y][x] = 3+count
+
+
+
+def search(y,x): ## a<0 a>=size block
+    global board,size
+    if ((y-1>=0 and y+1<size )and (x-1>=0 and x+1 < size)):
+        if board[y+1][x] == 0 or board[y+1][x] == 4 or board[y+1][x] == 5 or board[y+1][x] == 6 or board[y+1][x] == 7 or board[y+1][x] == 8 or board[y+1][x] == 9 or board[y+1][x] == 10 or board[y+1][x] == 11:
+            replace_b(y+1,x)
+        if board[y-1][x] == 0 or board[y-1][x] ==4 or board[y-1][x] ==5 or board[y-1][x] ==6 or board[y-1][x] ==7 or board[y-1][x] ==8 or board[y-1][x] ==9 or board[y-1][x] ==10 or board[y-1][x] ==11:
+            replace_b(y-1,x)
+        if board[y][x+1] == 0 or board[y][x+1] ==4 or board[y][x+1] ==5 or board[y][x+1] ==6 or board[y][x+1] ==7 or board[y][x+1] ==8 or board[y][x+1] ==9 or board[y][x+1] ==10 or board[y][x+1] ==11:
+            replace_b(y,x+1)
+        if board[y][x-1] ==0 or board[y][x-1] ==4 or board[y][x-1] ==5 or board[y][x-1] ==6 or board[y][x-1] ==7 or board[y][x-1] ==8 or board[y][x-1] ==9 or board[y][x-1] ==10 or board[y][x-1] ==11:
+            replace_b(y,x-1)
     
 
 
@@ -69,15 +91,74 @@ r8_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/ma
 def w_c(event):
     replace_b(event.x//30,event.y//30)
 
-def replace_b(x,y):
+
+
+
+def replace_a(x,y):
     if(board[y][x] == 0):
         board[y][x] = 1
     if(board[y][x] == 2):
         board[y][x] = 3 ## 2,2 18,18 , 한변의 길이:16 ,폭이 5
+    if(board[y][x] == 4):
+        board[y][x] = 12
+        
+    if(board[y][x] == 5):
+        board[y][x] = 13
+    if(board[y][x] == 6):
+        board[y][x] = 14
+    if(board[y][x] == 7):
+        board[y][x] = 15
+    if(board[y][x] == 8):
+        board[y][x] = 16
+    if(board[y][x] == 9):
+        board[y][x] = 17
+    if(board[y][x] == 10):
+        board[y][x] = 18
+    if(board[y][x] == 11):
+        board[y][x] = 19
+
+def replace_b(x,y):
+    print("work")
+    global bool_1
+    click=1
+    if(board[y][x] == 0):
+        board[y][x] = 1
+        click=0
+    if(board[y][x] == 2):
+        board[y][x] = 3 ## 2,2 18,18 , 한변의 길이:16 ,폭이 5
+    if(board[y][x] == 4):
+        board[y][x] = 12
+        click=0
+        
+    if(board[y][x] == 5):
+        board[y][x] = 13
+        click=0
+    if(board[y][x] == 6):
+        board[y][x] = 14
+        click=0
+    if(board[y][x] == 7):
+        board[y][x] = 15
+        click=0
+    if(board[y][x] == 8):
+        board[y][x] = 16
+        click=0
+    if(board[y][x] == 9):
+        board[y][x] = 17
+        click=0
+    if(board[y][x] == 10):
+        board[y][x] = 18
+        click=0
+    if(board[y][x] == 11):
+        board[y][x] = 19
+        click=0
+
+    if click == 0  :
+        search(y,x)
+        return 0
     window.quit()
 
 
-def check_board_img(y,x): ## 블럭 = 0 , 꽉찬 블럭=1 숨폭= 2 폭=3 숨1=4,숨2=5,숨3=6,숨4=7,숨5=8,숨6=9,숨7=10,숨8=11,블1=12,블2=13,블3=14,블4=15,블5=16,블6=17,블7=18,블8=19
+def check_board_img(y,x): ## 블럭 = 1 , 꽉찬 블럭=0 숨폭= 2 폭=3 숨1=4,숨2=5,숨3=6,숨4=7,숨5=8,숨6=9,숨7=10,숨8=11,블1=12,블2=13,블3=14,블4=15,블5=16,블6=17,블7=18,블8=19
     if(board[y][x] == 0 or board[y][x] == 2 or board[y][x] == 4 or board[y][x] == 5 or board[y][x] == 6 or board[y][x] == 7 or board[y][x] == 8 or board[y][x] == 9 or board[y][x] == 10 or board[y][x] == 11):
         return fb_p
     
@@ -146,15 +227,17 @@ def rep(): ## 1
 
 for i in range(size):
     for j in range(size):
-        check_around(board[i][j])
+        print(board[i][j],end="")
+    
+    print("")
 
 
 
 for i in range(size):
     for j in range(size):
-        print(board[i][j],end="")
-    
-    print("")
+        check_around(i,j)
+
+
 
 
 while bool:
