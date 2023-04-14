@@ -54,15 +54,14 @@ def check_around(y,x): ## a<0 a>=size block
 
 def search(y,x): ## a<0 a>=size block
     global board,size
-    if ((y-1>=0 and y+1<size )and (x-1>=0 and x+1 < size)):
-        if board[y+1][x] == 0 or board[y+1][x] == 4 or board[y+1][x] == 5 or board[y+1][x] == 6 or board[y+1][x] == 7 or board[y+1][x] == 8 or board[y+1][x] == 9 or board[y+1][x] == 10 or board[y+1][x] == 11:
-            replace_b(y+1,x)
-        if board[y-1][x] == 0 or board[y-1][x] ==4 or board[y-1][x] ==5 or board[y-1][x] ==6 or board[y-1][x] ==7 or board[y-1][x] ==8 or board[y-1][x] ==9 or board[y-1][x] ==10 or board[y-1][x] ==11:
-            replace_b(y-1,x)
-        if board[y][x+1] == 0 or board[y][x+1] ==4 or board[y][x+1] ==5 or board[y][x+1] ==6 or board[y][x+1] ==7 or board[y][x+1] ==8 or board[y][x+1] ==9 or board[y][x+1] ==10 or board[y][x+1] ==11:
-            replace_b(y,x+1)
-        if board[y][x-1] ==0 or board[y][x-1] ==4 or board[y][x-1] ==5 or board[y][x-1] ==6 or board[y][x-1] ==7 or board[y][x-1] ==8 or board[y][x-1] ==9 or board[y][x-1] ==10 or board[y][x-1] ==11:
-            replace_b(y,x-1)
+    count = 0
+    
+    for i in range(9):
+
+        if ((y-1+(i //3) >= 0 and y-1+(i//3) < size) and (x-1+(i%3) >= 0 and x-1+(i%3) < size)):
+
+            if(board[y-1+(i//3)][x-1+(i%3)] == 0  or board[y-1+(i//3)][x-1+(i%3)] == 4 or board[y-1+(i//3)][x-1+(i%3)] == 5 or board[y-1+(i//3)][x-1+(i%3)] == 6 or board[y-1+(i//3)][x-1+(i%3)] == 7 or board[y-1+(i//3)][x-1+(i%3)] == 8 or board[y-1+(i//3)][x-1+(i%3)] == 9 or board[y-1+(i//3)][x-1+(i%3)] == 10 or board[y-1+(i//3)][x-1+(i%3)] == 11): ##
+                replace_a((x-1+(i%3)),(y-1+(i//3)))
     
 
 
@@ -87,6 +86,7 @@ r5_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/ma
 r6_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/main/image/n_6.png")
 r7_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/main/image/n_7.png")
 r8_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/main/image/n_8.png")
+fl_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/main/image/flags.png")
 
 def w_c(event):
     replace_b(event.x//30,event.y//30)
@@ -95,66 +95,68 @@ def w_c(event):
 
 
 def replace_a(x,y):
+    global bool_1
     if(board[y][x] == 0):
         board[y][x] = 1
+        search(y,x)
     if(board[y][x] == 2):
         board[y][x] = 3 ## 2,2 18,18 , 한변의 길이:16 ,폭이 5
+        return 0
     if(board[y][x] == 4):
         board[y][x] = 12
-        
+        return 0
     if(board[y][x] == 5):
         board[y][x] = 13
+        return 0
     if(board[y][x] == 6):
         board[y][x] = 14
+        return 0
     if(board[y][x] == 7):
         board[y][x] = 15
+        return 0
     if(board[y][x] == 8):
         board[y][x] = 16
+        return 0
     if(board[y][x] == 9):
         board[y][x] = 17
+        return 0
     if(board[y][x] == 10):
         board[y][x] = 18
+        return 0
     if(board[y][x] == 11):
         board[y][x] = 19
+        return 0
+
+    
+    window.quit()
 
 def replace_b(x,y):
     print("work")
     global bool_1
-    click=1
     if(board[y][x] == 0):
         board[y][x] = 1
-        click=0
+        search(y,x)
     if(board[y][x] == 2):
         board[y][x] = 3 ## 2,2 18,18 , 한변의 길이:16 ,폭이 5
     if(board[y][x] == 4):
         board[y][x] = 12
-        click=0
         
     if(board[y][x] == 5):
         board[y][x] = 13
-        click=0
     if(board[y][x] == 6):
         board[y][x] = 14
-        click=0
     if(board[y][x] == 7):
         board[y][x] = 15
-        click=0
     if(board[y][x] == 8):
         board[y][x] = 16
-        click=0
     if(board[y][x] == 9):
         board[y][x] = 17
-        click=0
     if(board[y][x] == 10):
         board[y][x] = 18
-        click=0
     if(board[y][x] == 11):
         board[y][x] = 19
-        click=0
 
-    if click == 0  :
-        search(y,x)
-        return 0
+    
     window.quit()
 
 
