@@ -66,7 +66,6 @@ def search(y,x): ## a<0 a>=size block
 
 
 
-
 def print_url_pic(url):
     respond = requests.get(url)
     i_photo = Image.open(BytesIO(respond.content))
@@ -86,13 +85,41 @@ r5_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/ma
 r6_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/main/image/n_6.png")
 r7_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/main/image/n_7.png")
 r8_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/main/image/n_8.png")
-fl_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/main/image/flags.png")
+fl_p = print_url_pic("https://raw.githubusercontent.com/harrydens/python-mine/main/image/b_flags.png")
 
 def w_c(event):
     replace_b(event.x//30,event.y//30)
 
+def w_c2(event):
+    flag_on(event.x//30,event.y//30)
 
 
+
+def flag_on(x,y):
+    print("work")
+    if(board[y][x] == 0):
+        board[y][x] = 20
+    if(board[y][x] == 2):
+        board[y][x] = 21 ## 2,2 18,18 , 한변의 길이:16 ,폭이 5
+    if(board[y][x] == 4):
+        board[y][x] = 22
+    if(board[y][x] == 5):
+        board[y][x] = 23
+    if(board[y][x] == 6):
+        board[y][x] = 24
+    if(board[y][x] == 7):
+        board[y][x] = 25
+    if(board[y][x] == 8):
+        board[y][x] = 26
+    if(board[y][x] == 9):
+        board[y][x] = 27
+    if(board[y][x] == 10):
+        board[y][x] = 28
+    if(board[y][x] == 11):
+        board[y][x] = 29
+
+    
+    window.quit()
 
 def replace_a(x,y):
     global bool_1
@@ -160,7 +187,7 @@ def replace_b(x,y):
     window.quit()
 
 
-def check_board_img(y,x): ## 블럭 = 1 , 꽉찬 블럭=0 숨폭= 2 폭=3 숨1=4,숨2=5,숨3=6,숨4=7,숨5=8,숨6=9,숨7=10,숨8=11,블1=12,블2=13,블3=14,블4=15,블5=16,블6=17,블7=18,블8=19
+def check_board_img(y,x): ## 블럭 = 1 , 꽉찬 블럭=0 숨폭= 2 폭=3 숨1=4,숨2=5,숨3=6,숨4=7,숨5=8,숨6=9,숨7=10,숨8=11,블1=12,블2=13,블3=14,블4=15,블5=16,블6=17,블7=18,블8=19,블깃=20,폭깃=21,1깃=22,2깃=23,3깃=24,4깃=25,5깃=26,6깃=27,7깃=28,8깃=29
     if(board[y][x] == 0 or board[y][x] == 2 or board[y][x] == 4 or board[y][x] == 5 or board[y][x] == 6 or board[y][x] == 7 or board[y][x] == 8 or board[y][x] == 9 or board[y][x] == 10 or board[y][x] == 11):
         return fb_p
     
@@ -193,6 +220,9 @@ def check_board_img(y,x): ## 블럭 = 1 , 꽉찬 블럭=0 숨폭= 2 폭=3 숨1=4
     
     if(board[y][x] == 19):
         return r8_p
+    
+    if(board[y][x] == 20 or board[y][x] == 21 or board[y][x] == 22 or board[y][x] == 23 or board[y][x] == 24 or board[y][x] == 25 or board[y][x] == 26 or board[y][x] == 27 or board[y][x] == 28 or board[y][x] == 29):
+        return fl_p
 
 
 def rep(): ## 1
@@ -202,6 +232,7 @@ def rep(): ## 1
             for j in range(0,size):
                 button = canvas.create_image(30*j,30*i,anchor=tk.NW ,image=check_board_img(i,j))
                 canvas.tag_bind(button, "<Button-1>", w_c)
+                canvas.tag_bind(button, "<Button-3>", w_c2)
     except:
         global bool
         bool=0
