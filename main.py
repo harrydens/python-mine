@@ -14,13 +14,15 @@ board = [[0 for j in range(size)] for i in range(size)]
 
 m_size = int(input("지뢰 개수:"))
 
+keep = m_size
+
 while m_size > 0:
     j = random.randint(0,size-1)
     i = random.randint(0,size-1)
     if board[i][j] != 2:
         board[i][j] = 2
         m_size -= 1
-    
+m_size = keep
 
 
 
@@ -99,24 +101,56 @@ def flag_on(x,y):
     print("work")
     if(board[y][x] == 0):
         board[y][x] = 20
+    elif(board[y][x] == 20):
+        board[y][x] = 0
     if(board[y][x] == 2):
         board[y][x] = 21 ## 2,2 18,18 , 한변의 길이:16 ,폭이 5
+    elif(board[y][x] == 21):
+        board[y][x] = 2 ## 2,2 18,18 , 한변의 길이:16 ,폭이 5
     if(board[y][x] == 4):
         board[y][x] = 22
+    elif(board[y][x] == 22):
+        board[y][x] = 4
     if(board[y][x] == 5):
         board[y][x] = 23
+    elif(board[y][x] == 23):
+        board[y][x] = 5
     if(board[y][x] == 6):
         board[y][x] = 24
+    elif(board[y][x] == 24):
+        board[y][x] = 6
     if(board[y][x] == 7):
         board[y][x] = 25
+    elif(board[y][x] == 25):
+        board[y][x] = 7    
+    
     if(board[y][x] == 8):
         board[y][x] = 26
+    elif(board[y][x] == 26):
+        board[y][x] = 8
     if(board[y][x] == 9):
         board[y][x] = 27
+    elif(board[y][x] == 27):
+        board[y][x] = 9
     if(board[y][x] == 10):
         board[y][x] = 28
+    elif(board[y][x] == 28):
+        board[y][x] = 10
     if(board[y][x] == 11):
         board[y][x] = 29
+    elif(board[y][x] == 29):
+        board[y][x] = 11
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     
     window.quit()
@@ -220,9 +254,37 @@ def check_board_img(y,x): ## 블럭 = 1 , 꽉찬 블럭=0 숨폭= 2 폭=3 숨1=4
     
     if(board[y][x] == 19):
         return r8_p
-    
+
     if(board[y][x] == 20 or board[y][x] == 21 or board[y][x] == 22 or board[y][x] == 23 or board[y][x] == 24 or board[y][x] == 25 or board[y][x] == 26 or board[y][x] == 27 or board[y][x] == 28 or board[y][x] == 29):
         return fl_p
+
+def scane():
+    count=int(0)
+    for i in range(size):
+        for j in range(size):
+            if board[i][j] in [0,4,5,6,7,8,9,10,11]:
+                count += 1
+    print("1 : ",count)
+    print("1,2 : ",m_size)
+    return count
+
+def scane1():
+    count=int(0)
+    for i in range(size):
+        for j in range(size):
+            if board[i][j] == 21:
+                count += 1
+    print("2 : ",count)
+    return count
+
+
+def win():
+
+    if m_size == scane1() and 0 == scane():
+        print("you win")
+        global bool
+        bool=0
+
 
 
 def rep(): ## 1
@@ -233,6 +295,7 @@ def rep(): ## 1
                 button = canvas.create_image(30*j,30*i,anchor=tk.NW ,image=check_board_img(i,j))
                 canvas.tag_bind(button, "<Button-1>", w_c)
                 canvas.tag_bind(button, "<Button-3>", w_c2)
+        win()
     except:
         global bool
         bool=0
