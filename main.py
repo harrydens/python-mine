@@ -277,13 +277,28 @@ def scane1():
     print("2 : ",count)
     return count
 
+def scane2():
+    count=int(0)
+    for i in range(size):
+        for j in range(size):
+            if board[i][j] == 3:
+                count += 1
+    print("3 : ",count)
+    return count
+
 
 def win():
+    global bool
 
     if m_size == scane1() and 0 == scane():
         print("you win")
-        global bool
         bool=0
+    
+    if scane2():
+        print("you lose")
+        bool=0
+
+
 
 
 
